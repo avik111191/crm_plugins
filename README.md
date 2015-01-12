@@ -1,7 +1,7 @@
 # crm_plugins \n
 
-#credientials  uname:a1a1A22@damnidiot.onmicrosoft.com 
-#              passwd:PASSword1
+credientials  uname:a1a1A22@damnidiot.onmicrosoft.com 
+              passwd:PASSword1
 
 
 
