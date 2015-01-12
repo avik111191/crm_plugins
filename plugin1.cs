@@ -20,12 +20,12 @@ namespace plugin1
             IOrganizationServiceFactory orgfact =(IOrganizationServiceFactory)serviceProvider.GetService(typeof(IOrganizationServiceFactory));
             IOrganizationService serv = (IOrganizationService)orgfact.CreateOrganizationService(con.UserId);
            
-           con.
+          
            //SystemUser sys=new SystemUser(); 
            //ColumnSet col=new ColumnSet();
            //col.AddColumn("domainname");
            //col.AddColumn("OrganizationId");
-           SystemUser systemuser=(SystemUser)serv.Retrieve("systemuser",con.UserId,new ColumnSet(true));
+           SystemUser systemuser=(SystemUser)serv.Retrieve("systemuser",con.UserId,new ColumnSet(true)); 
            SystemUser inituser =(SystemUser)serv.Retrieve("systemuser",con.InitiatingUserId,new ColumnSet(true));
           // Guid g=(Guid)systemuser.OrganizationId;
            Organization organisation = (Organization)serv.Retrieve("organization",(Guid)systemuser.OrganizationId, new ColumnSet(true));
@@ -40,7 +40,7 @@ namespace plugin1
            //a_22.nazi_orgname = organisation.Name;
            try
            {
-               Guid neww = (Guid)serv.Create(entity);
+              erv.Update(entity);
            }
            catch(Exception ep)
            {
