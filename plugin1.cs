@@ -40,7 +40,7 @@ namespace plugin1
            //a_22.nazi_orgname = organisation.Name;
            try
            {
-              erv.Update(entity);
+              serv.Update(entity);
            }
            catch(Exception ep)
            {
