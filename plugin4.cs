@@ -16,7 +16,7 @@ namespace plugin4
 {
     public class Class4 : IPlugin
     {
-        float num1, num2, sum, mul, div;
+        double num1, num2, sum, mul, div;
         bool div_by_zero=false;
         IPluginExecutionContext context;
         IOrganizationServiceFactory factory;
@@ -37,8 +37,7 @@ namespace plugin4
             call_write();
         }
 
-
-        
+       
         private async void call_ini_funct()
         {
             await _int_funct();
@@ -61,9 +60,10 @@ namespace plugin4
         {
             
             entity = (Entity)context.InputParameters["Target"];
+            c_22.Id = (Guid)entity.Id;
             c_22.nazi_name = (string)entity["nazi_name"];
-          c_22.nazi_num1 = num1=(float)entity["nazi_num1"];
-          c_22.nazi_num2 = num2 = (float)entity["nazi_num2"];
+            c_22.nazi_num1 = num1 = (double)entity["nazi_num1"];
+            c_22.nazi_num2 = num2 = (double)entity["nazi_num2"];
           c_22.nazi_sum = sum = num1 + num2;
           c_22.nazi_mult = mul = num1 * sum;
             if(mul==0.00)
