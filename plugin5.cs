@@ -26,12 +26,19 @@ namespace plugin5
         Guid emailid_ = new Guid();
         Entity con;
 
+        ColumnSet colunmset = new ColumnSet(true);
+        Guid salesperson = new Guid();
+
+
         public void Execute(IServiceProvider serviceProvider)
         {
             provider=serviceProvider;
             _context_service();
             _createtask_task_entity();
             _create_email_atvity();
+            _salesperson_userid();
+            _assign_activities();
+
       
 
         }
@@ -91,6 +98,42 @@ namespace plugin5
              
            
         }
+
+        private async void  _salesperson_userid()
+        {
+         await salesperson_userid();
+        }
+       private async System.Threading.Tasks.Task salesperson_userid()
+       {
+          QueryExpression query = new QueryExpression(systemuser.LogicalName);
+          query.ColumnSet = colunmset;
+          query.Criteria.AddCondition(systemuser.LogicalName,"domainname", ConditionOperator.Equal,           "sales_person@damnidiot.onmicrosoft.com");
+          EntityCollection systemusers = service.RetrieveMultiple(query);
+           foreach (var a in systemusers.Entities)
+           { salesperson = (Guid)a["systemuserid"]; }
+       }
+        private async void _assign_activities()
+       {
+         await assign_activities();
+       }
+       private async System.Threading.Tasks.Task assign_activities()
+       {
+          Email email_ = new Email();
+          crm_ddl_namespace.Task task_ = new crm_ddl_namespace.Task();
+          AssignRequest assign = new AssignRequest
+             {
+                 Assignee = new EntityReference(SystemUser.EntityLogicalName,salesperson),
+                 Target = new EntityReference(task_.LogicalName,taskss)
+             };
+         service.Execute(assign);
+
+          AssignRequest assign = new AssignRequest
+             {
+                 Assignee = new EntityReference(SystemUser.EntityLogicalName,salesperson),
+                 Target = new EntityReference(email_.LogicalName,emailid_)
+             };
+         service.Execute(assign);
+       }
     }
 }
 
