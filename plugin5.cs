@@ -24,6 +24,7 @@ namespace plugin5
         static bool context_service;
         Guid taskss = new Guid();
         Guid emailid_ = new Guid();
+        Entity con;
 
         public void Execute(IServiceProvider serviceProvider)
         {
@@ -45,6 +46,7 @@ namespace plugin5
             context = (IPluginExecutionContext)provider.GetService(typeof(IPluginExecutionContext));
             factory = (IOrganizationServiceFactory)provider.GetService(typeof(IOrganizationServiceFactory));
             service = factory.CreateOrganizationService(context.UserId);
+            con = (Entity)context.InputParameters["Target"];
         }
 
         private async void _createtask_task_entity()
@@ -55,7 +57,7 @@ namespace plugin5
         private async System.Threading.Tasks.Task create__task_entity()
         {
             crm_ddl_namespace.Task task = new crm_ddl_namespace.Task();
-            task.Subject = "Heil Hittler";
+            task.Subject = (string)con["name"];
             task.Description = "nazi nigger created this task";
 
             taskss=service.Create(task);
@@ -71,12 +73,24 @@ namespace plugin5
         {
             Email email = new Email();
             email.ToRecipients = "avik111191@gmail.com";
+           
             //email.To=
             //email.From=
-            email.Subject = "Heil Hitler";
-            email.Description = "created by nazi nigger";
+            email.Subject = (string)con["name"];
+            email.Description = "nazi nigger created this task";
             emailid_ = (Guid)service.Create(email);
+            ActivityParty activityparty=new ActivityParty();
+            SystemUser systemuser =new SystemUser();
+            EntityReference from = new EntityReference("systemuser", context.UserId);
+            activityparty.PartyId = from;
+
+            email.From = (System.Collections.Generic.IEnumerable<crm_ddl_namespace.ActivityParty>)activityparty;
+
+            emailid_ =(Guid)service.Create(email);
+           
+             
            
         }
     }
 }
+
